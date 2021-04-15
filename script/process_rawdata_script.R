@@ -1,7 +1,29 @@
 # This processes raw output data file from experiment script
 #
+# # How to use
+# 1) Put your folder with raw text data file saved from a manipulandum script into "data/rawdata"
+# 2) Set key parameters. The minimum edits to make are change your subject identifier (sub_identifier & sub_id, or unique_sub_tag).
+# 3) Run this script. It make take a while if you have a large number of trials
+# 4) Processed files (middata) are output in "data/processed". You can also check basic data plots (e.g., trajectory, trial-by-trial movement time) unless you turn them off
+#
 # Author: Taisei Sugiyama
 
+#### Set key parameters ####
+sub_identifier <- "S" # subject identifier (tagging) 
+sub_id <- 1 # subject id
+add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
+unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+rawdata_dir <- "data/rawdata" # the directory where raw data folders (directories) are stored
+save_main_dir <- "data"
+save_sub_dir <- "processed"
+fname_col_list <- "script/miscellaneous/rawdata_col_list_default.R"
+plot_kinematics <- T # whether you want to output plots for basic kinematics. 
+plot_points <- T # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
+output_rdata <- T # boolean. whether you want output formatted as rdata
+output_csv <- T # boolean.  whether you want output formatted as csv
+
+
+#### Preparation ####
 ## Load packages and subscripts
 library(dplyr)
 library(purrr)
@@ -11,28 +33,9 @@ library(ggplot2)
 library(ggforce)
 library(gridExtra)
 source("script/sub_script/process_kin.R")
+source("script/miscellaneous/param_sg_filt.R")
 
-sub_identifier <- "S" # subject identifier (tagging) 
-sub_id <- 1 # subject id
-add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
-# unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
-unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
-rawdata_dir <- "data/rawdata" # the directory where raw data folders (directories) are stored
-
-save_main_dir <- "data"
-save_sub_dir <- "processed"
-
-kin_col <- c("state","x","y","vx","vy","t_a","t_b","fs_x","fs_y","fx","fy") # columns of kinematic data 
-point_col <- c("cross_x_rbt","cross_y_rbt","cross_deg_rbt","peak_vel","mt","rt","score","retry","error_deg") # columns of point data
-tgt_col <- c("field","apply_field","trad","tgt","wait_time", "bval", " chan_k11", "chan_b11", "spring_gain","rot","show_arc",
-             "show_cur","show_score","train_type","min_score","max_score","difficulty")
-
-plot_kinematics <- T # whether you want to output plots for basic kinematics. 
-plot_points <- T # whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
-
-
-#### Preparation ####
-
+## miscellaneous processing
 if (!is.na(unique_sub_tag)){
   tgt_dir <- unique_sub_tag
 } else {
