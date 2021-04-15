@@ -4,6 +4,10 @@
 # tgt_raw: target sequence file data 
 # param_raw: block-wide parameters(e.g., sequence file name used, target distance)
 
+
+## Preparation
+source(fname_col_list)
+
 # categorize filenames
 fname_kin <- fname_all[grepl('kin', fname_all) & grepl('.txt', fname_all)] # kinematic data filenames
 fname_point <- fname_all[grepl('point', fname_all) & grepl('.txt', fname_all)] # point (trial-by-trial) data filenames
