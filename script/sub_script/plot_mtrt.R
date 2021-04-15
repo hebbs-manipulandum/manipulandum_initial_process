@@ -2,8 +2,6 @@
 ##
 ## Author: Taisei Sugiyama
 
-
-
 ## Set variables
 main_dir = "basic_point"
 sub_dir = "plot_mtrt"
@@ -14,7 +12,7 @@ theme_update(plot.title = element_text(hjust = .5)) # Set default alignment of p
 source("function/save_plots.R")
 source("function/format_gg.R")
 source("function/gg_def_col.R")
-source("script/process_rawdata/state_list.R")
+source("script/miscellaneous/state_list.R")
 
 ## Data processing
 data_plot <- point_raw %>%
