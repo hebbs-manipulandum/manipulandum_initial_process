@@ -31,11 +31,11 @@ state <- df$state # trial state
 
 
 if (reduce_hz) {
-  return_df <- data.frame(tstep = 1:length(x), state, x, y, vx, vy, sx, sy, svx, svy, sax, say, sjx, sjy) %>% 
+  return_df <- data.frame(tstep = 1:length(x), state, x, y, vx, vy, sx, sy, svx, svy, sax, say, sjx, sjy, fx = df$fs_x, fy = df$fs_y)  %>% 
     # dplyr::filter(tstep %% red_rate == 1) # reduce sample Hz
     dplyr::filter(tstep %% reduce_hz_rate == 1) # reduce sample Hz
 } else{
-  return_df <- data.frame(tstep = 1:length(x), state, x, y, vx, vy, sx, sy, svx, svy, sax, say, sjx, sjy)
+  return_df <- data.frame(tstep = 1:length(x), state, x, y, vx, vy, sx, sy, svx, svy, sax, say, sjx, sjy, fx = df$fs_x, fy = df$fs_y)
 }
 
 

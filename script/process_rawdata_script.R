@@ -12,7 +12,8 @@
 sub_identifier <- "S" # subject identifier (tagging) 
 sub_id <- 1 # subject id
 add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
-unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+# unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 rawdata_dir <- "data/rawdata" # the directory where raw data folders (directories) are stored
 save_main_dir <- "data"
 save_sub_dir <- "processed"
