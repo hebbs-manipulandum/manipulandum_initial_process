@@ -14,8 +14,8 @@
 sub_identifier <- "S" # subject identifier (tagging) 
 sub_id <- 1 # subject id
 add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
-# unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
-unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+# unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 rawdata_dir <- "data/rawdata" # the directory where raw data folders (directories) are stored
 save_main_dir <- "data"
 save_sub_dir <- "processed"
@@ -25,6 +25,8 @@ plot_points <- T # boolean. whether you want to output plots for basic trial-by-
 output_rdata <- T # boolean. whether you want output formatted as rdata
 output_csv <- T # boolean.  whether you want output formatted as csv
 
+align_window <- 500 # In how long (ms) do you want kinematic data after it's aligned to movement initiation. This automatically considers downsampling, so set as time, not # of data points. 
+align_time_back <- 100 # How long (ms) do you want to include kinematic data before movement initiation. Note that this "pre-movement" period is included in align_window. 
 
 #### Preparation ####
 ## Load packages and subscripts
@@ -37,6 +39,7 @@ library(ggforce)
 library(gridExtra)
 source("script/sub_script/process_kin.R")
 source("script/miscellaneous/param_sg_filt.R")
+source("script/miscellaneous/state_list.R")
 
 ## miscellaneous processing
 if (!is.na(unique_sub_tag)){
@@ -60,9 +63,21 @@ if (length(fname_all) ==0)
 # This reads data files and organize them into 4 different dataframes
 source("script/sub_script/read_files.R")
 # point_raw: "point" trial data (e.g., movement time, hand error)
-# kin_raw: kinematic data
+# kin_raw: kinematic data (Downsampling is applied if you set so in options, even though it's tagged "raw")
 # tgt_raw: target sequence file data 
 # param_raw: block-wide parameters(e.g., sequence file name used, target distance)
+
+# data alignment
+# This has been changed from old scripts where movement initiation is defined as 10% of peak velocity.
+# Currently, it uses the event defined in an experiment script, such as distance or target velocity.
+kin_align <- dplyr::filter(kin_raw, lead(state, (align_time_back/reduce_hz_rate))>= state_moving) %>% 
+  group_by(blk_tri) %>% 
+  dplyr::filter(row_number() <= (align_window/reduce_hz_rate)) %>% 
+  mutate(tstep_align = tstep - tstep[1]+1) %>% # add time step with respect to movement initiation
+  ungroup()
+
+
+
 
 #### Plotting ####
 if (plot_kinematics){
@@ -91,11 +106,17 @@ dir.create(file.path(save_dir, tgt_dir), showWarnings = FALSE)
 fpath = sprintf("%s/%s",save_dir,tgt_dir)
 
 # put everything in list and save as Rdata
-output_list <- list(point = point_raw, tgt = tgt_raw, kin = kin_raw, param = param_raw)
-save(output_list, file=sprintf("%s/exp_data.RData",fpath))
+
+if (output_rdata){
+  output_list <- list(point = point_raw, tgt = tgt_raw, kin = kin_raw, param = param_raw)
+  save(output_list, file=sprintf("%s/exp_data.RData",fpath))
+}
 
 # save as csv
-write.csv(point_raw, file=sprintf("%s/point_data.csv",fpath), row.names = FALSE)
-write.csv(tgt_raw, file=sprintf("%s/tgt_data.csv",fpath), row.names = FALSE)
-write.csv(kin_raw, file=sprintf("%s/kin_data.csv",fpath), row.names = FALSE)
-write.csv(param_raw, file=sprintf("%s/param_data.csv",fpath), row.names = FALSE)
+if (output_csv){
+  write.csv(point_raw, file=sprintf("%s/point_data.csv",fpath), row.names = FALSE)
+  write.csv(tgt_raw, file=sprintf("%s/tgt_data.csv",fpath), row.names = FALSE)
+  write.csv(kin_raw, file=sprintf("%s/kin_data.csv",fpath), row.names = FALSE)
+  write.csv(kin_align, file=sprintf("%s/kin_data_align.csv",fpath), row.names = FALSE)
+  write.csv(param_raw, file=sprintf("%s/param_data.csv",fpath), row.names = FALSE)
+}

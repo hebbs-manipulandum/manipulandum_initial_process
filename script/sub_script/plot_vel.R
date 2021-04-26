@@ -1,4 +1,4 @@
-# plot trial-by-trial kinematic data
+# plot 1) trial-by-trial kinematic data and 2) temporally aligned data
 
 ##### Data processing #####
 data_plot <- kin_raw %>%
@@ -31,9 +31,9 @@ plot_list <- lapply(tois, function(toi){
   tgt_raw_tri <- subset(tgt_raw, blk_tri == toi)
   tgt_pos <- data.frame(x = tgt_raw_tri$trad*cosd(tgt_raw_tri$tgt), y =  tgt_raw_tri$trad*sind(tgt_raw_tri$tgt))
 
-  
+  # cross point (last time point in the "moving" state)
   cross_pt <- subset(data_plot, blk_tri == toi & state == state_moving) %>% 
-    head(1) %>% 
+    tail(1) %>% 
     .$tstep
   
   tmp_plot.pre <- ggplot(subset(data_plot, blk_tri == toi), aes(x = tstep/1000)) +
@@ -54,6 +54,20 @@ plot_list_save = marrangeGrob(plot_list, nrow = nr, ncol = nc, layout_matrix = m
                               top = sprintf("SG-filtered Velocity [Blue: x, Red: y, Gray: Time of Crossing]"),
                               left = "velocity [m/s]", bottom = "Time [s]") # convert the list of plots
 
-fname_list = sprintf("%s_%s",sub_dir,tgt_dir)
-save_plots(fname = fname_list, tgt_plot = plot_list_save, pdf_only = T)
+fname_plot1 = sprintf("%s_%s",sub_dir,tgt_dir)
+save_plots(fname = fname_plot1, tgt_plot = plot_list_save, pdf_only = T)
+
+
+## Aligned data
+
+tmp_plot2.pre <- ggplot(kin_align, aes(x=tstep_align/1000, y=svy, color= blk_tri, group = blk_tri)) +
+  geom_hline(yintercept = 0, color = "gray", linetype="31") +
+  geom_path() +
+  scale_color_gradientn(colours = rainbow(8), name="Trial")
+
+tmp_plot2 <- format_gg(tmp_plot2.pre, xlabel = "Time [s]", ylabel = "Velocity [m/s]", 
+                      xlimit = c(0,(align_window)/1000), ylimit =c(-1.5,1.5), xticks = c(0,(align_window)/2000, (align_window)/1000), yticks = seq(-1.5,1.5,.5),  show.leg = T, pos.leg = "tr")
+
+fname_plot2 = sprintf("%s_%s_align",sub_dir,tgt_dir)
+save_plots(fname = fname_plot2, tgt_plot = tmp_plot2, pdf_only = T)
 
