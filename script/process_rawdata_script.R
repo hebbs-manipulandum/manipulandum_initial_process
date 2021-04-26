@@ -6,6 +6,7 @@
 # 3) Run this script. It make take a while if you have a large number of trials
 # 4) Processed files (middata) are output in "data/processed". You can also check basic data plots (e.g., trajectory, trial-by-trial movement time) unless you turn them off
 #
+# Test: just testing after transferring this repo on github
 # Author: Taisei Sugiyama
 
 #### Set key parameters ####
