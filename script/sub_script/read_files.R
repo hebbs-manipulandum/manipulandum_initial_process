@@ -46,7 +46,7 @@ kin_raw <- map(fname_kin,function(fname){
   colnames(return_df_raw) <- kin_col
   
   return_df_raw2 <- return_df_raw %>% 
-    mutate(x = -(x - task_center_x), y = -(y - task_center_y)) # zero-ing with respect to the center of task space. Also, flip with respect to x & y axis, as each is defined opposite in labview (and so is in recorded data)
+    mutate(x = (x - task_center_x), y = (y - task_center_y)) # zero-ing with respect to the center of task space. 
   
   return_df <- process_kin(return_df_raw2,reduce_hz,reduce_hz_rate) %>% 
     mutate(blk_tri = tri_num)
