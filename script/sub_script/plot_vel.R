@@ -65,9 +65,9 @@ tmp_plot2.pre <- ggplot(kin_align, aes(x=tstep_align/1000, y=svy, color= blk_tri
   geom_path() +
   scale_color_gradientn(colours = rainbow(8), name="Trial")
 
-tmp_plot2 <- format_gg(tmp_plot2.pre, xlabel = "Time [s]", ylabel = "Velocity [m/s]", 
+tmp_plot2 <- format_gg(tmp_plot2.pre, xlabel = "Time [s]", ylabel = "Y-Velocity [m/s]", 
                       xlimit = c(0,(align_window)/1000), ylimit =c(-1.5,1.5), xticks = c(0,(align_window)/2000, (align_window)/1000), yticks = seq(-1.5,1.5,.5),  show.leg = T, pos.leg = "tr")
 
-fname_plot2 = sprintf("%s_%s_align",sub_dir,tgt_dir)
+fname_plot2 = sprintf("%s_%s_align_y",sub_dir,tgt_dir)
 save_plots(fname = fname_plot2, tgt_plot = tmp_plot2, pdf_only = T)
 

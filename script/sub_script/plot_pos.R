@@ -42,8 +42,9 @@ plot_list <- lapply(tois, function(toi){
                         xlimit = c(-.15,.15), ylimit =c(-.15,.15), xticks = NA, yticks = NA,  show.leg = F)
 })
 
-nr = 4  # number of rows
+nr = 4 # number of rows
 nc = 5 # number of columns
+
 
 plot_list_save = marrangeGrob(plot_list, nrow = nr, ncol = nc, layout_matrix = matrix(1:(nr*nc),nr,nc,T),
                               top = sprintf("Trajectory [Hand: gray, Cursor: red, Target: black]"),
