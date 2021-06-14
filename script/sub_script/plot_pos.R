@@ -53,3 +53,44 @@ plot_list_save = marrangeGrob(plot_list, nrow = nr, ncol = nc, layout_matrix = m
 fname_list = sprintf("%s_%s",sub_dir,tgt_dir)
 save_plots(fname = fname_list, tgt_plot = plot_list_save, pdf_only = T)
 
+# superimposed
+
+
+tgt_poss <- data.frame(x = tgt_raw$trad[1]*cosd(unique(tgt_raw$tgt)), y =  tgt_raw$trad[1]*sind(unique(tgt_raw$tgt)))
+
+plot1.pre <- ggplot(data_plot) +
+  geom_path(aes(x=x, y=y, group = blk_tri, color = tgt)) +
+  geom_circle(data = tgt_poss, aes(x0=x, y0=y, r = tsize_m, group = NA), size = .5, color = "black")
+
+plot1 <- format_gg(plot1.pre, xlabel = "x [m]", ylabel = "y [m]", 
+                      fsize_axis_text = 12,
+                      # xlimit = c(-.15,.15), ylimit =c(-.15,.15), xticks = NA, yticks = NA,  show.leg = F)
+                      xlimit = c(-1,1), ylimit =c(-1,1), xticks = NA, yticks = NA,  show.leg = F)
+                      # ylimit = c(-.01,.15), xlimit =c(-.08,.08), xticks = NA, yticks = NA,  show.leg = F)
+
+save_plots(fname = sprintf("%s_%s_blk",sub_dir,tgt_dir), tgt_plot = plot1, pdf_only = T)
+
+
+# 
+# plot2.pre <- ggplot(data_plot, aes(x = tstep, group = blk_tri)) +
+#   geom_path(aes(y = x), color = "blue") +
+#   geom_path(aes(y = y), color = "red") +  
+#   geom_point(aes(y = x), color = "blue", size = .4) +
+#   geom_point(aes(y = y), color = "red", size = .4)
+# 
+# plot2 <- format_gg(plot2.pre, xlabel = "Time [ms]", ylabel = "Position from Start (x: Blue, y:Red) [m]", 
+#                    fsize_axis_text = 12,
+#                    # xlimit = c(-.15,.15), ylimit =c(-.15,.15), xticks = NA, yticks = NA,  show.leg = F)
+#                    ylimit = c(-.01,.15), xlimit = c(0,800), show.leg = F)
+# 
+# save_plots(fname = sprintf("%s_%s_time",sub_dir,tgt_dir), tgt_plot = plot2, pdf_only = T)
+# 
+# plot3 <- format_gg(plot2.pre, xlabel = "Time [ms]", ylabel = "Position from Start (x: Blue, y:Red) [m]", 
+#                    fsize_axis_text = 12,
+#                    # xlimit = c(-.15,.15), ylimit =c(-.15,.15), xticks = NA, yticks = NA,  show.leg = F)
+#                    ylimit = c(.05,.10), xlimit = c(300,600), show.leg = F)
+# 
+# save_plots(fname = sprintf("%s_%s_time_zoomed",sub_dir,tgt_dir), tgt_plot = plot3, pdf_only = T)
+
+# tmp <- subset(data_plot, blk_tri == 62)
+

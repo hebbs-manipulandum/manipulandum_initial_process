@@ -12,7 +12,7 @@
 sub_identifier <- "S" # subject identifier (tagging) 
 sub_id <- 1 # subject id
 add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
-unique_sub_tag <- "test_small_packet" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
+# unique_sub_tag <- "0524_ti_te_2_sm_pre_probe" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 # unique_sub_tag <- "test_pretrain_ts" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 # unique_sub_tag <- "test_xy" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 # unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
@@ -23,7 +23,9 @@ fname_col_list <- "script/miscellaneous/rawdata_col_list_default.R"
 plot_kinematics <- T # whether you want to output plots for basic kinematics. 
 plot_points <- T # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
 output_rdata <- T # boolean. whether you want output formatted as rdata
-output_csv <- T # boolean.  whether you want output formatted as csv
+output_csv <- F # boolean.  whether you want output formatted as csv
+
+plot_bias <- F
 
 align_window <- 500 # In how long (ms) do you want kinematic data after it's aligned to movement initiation. This automatically considers downsampling, so set as time, not # of data points. 
 align_time_back <- 100 # How long (ms) do you want to include kinematic data before movement initiation. Note that this "pre-movement" period is included in align_window. 
@@ -40,6 +42,8 @@ library(gridExtra)
 source("script/sub_script/process_kin.R")
 source("script/miscellaneous/param_sg_filt.R")
 source("script/miscellaneous/state_list.R")
+
+options(dplyr.summarise.inform = FALSE) # suppress annoying summary message from dplyr
 
 ## miscellaneous processing
 if (!is.na(unique_sub_tag)){
@@ -85,6 +89,8 @@ if (plot_kinematics){
   source("script/sub_script/plot_vel.R")
 }
 
+
+
 if (plot_points){
   # some editing
   point_edit <- point_raw %>% 
@@ -94,6 +100,14 @@ if (plot_points){
   source("script/sub_script/plot_mtrt.R")
   source("script/sub_script/plot_err.R")
   source("script/sub_script/plot_retry.R")
+}
+
+
+if (plot_bias){
+  source("script/sub_script/plot_pos_bias.R")
+  source("script/sub_script/plot_err_bias.R")
+
+  
 }
 
 #### Saving ####
