@@ -13,4 +13,4 @@ point_col <- c("cross_x_rbt","cross_y_rbt","cross_deg_rbt","peak_vel","mt","rt",
 # tgt_col <- c("field","apply_field","trad","tgt","wait_time", "bval", " chan_k11", "chan_b11", "spring_gain","rot","show_arc",
              # "show_cur","show_score","train_type","min_score","max_score","difficulty", "trial_type", "block_phase")#
 tgt_col <- c("field","apply_field","trad","tgt","wait_time", "bval", " chan_k11", "chan_b11", "spring_gain","rot","show_arc",
-             "show_cur","show_score","train_type","min_score","max_score","difficulty", "trial_type", "block_phase","task_break")
+             "show_cur","show_score","train_type","min_score","max_score","difficulty", "trial_type", "block_phase","task_break","tms","tms_location")
