@@ -1,7 +1,7 @@
 tmp_fn <- list.files("data/rawdata/")
 
 for (unique_sub_tag in tmp_fn)
-  source("script/process_rawdata_script.R")
+  source("script/process_rawdata_script_multiple.R")
 
 # 
 # tmp <- output_list$point

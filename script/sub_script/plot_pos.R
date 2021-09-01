@@ -65,8 +65,8 @@ plot1.pre <- ggplot(data_plot) +
 plot1 <- format_gg(plot1.pre, xlabel = "x [m]", ylabel = "y [m]", 
                       fsize_axis_text = 12,
                       # xlimit = c(-.15,.15), ylimit =c(-.15,.15), xticks = NA, yticks = NA,  show.leg = F)
-                      xlimit = c(-1,1), ylimit =c(-1,1), xticks = NA, yticks = NA,  show.leg = F)
-                      # ylimit = c(-.01,.15), xlimit =c(-.08,.08), xticks = NA, yticks = NA,  show.leg = F)
+                      # xlimit = c(-1,1), ylimit =c(-1,1), xticks = NA, yticks = NA,  show.leg = F)
+                      ylimit = c(-.01,.15), xlimit =c(-.08,.08), xticks = NA, yticks = NA,  show.leg = F)
 
 save_plots(fname = sprintf("%s_%s_blk",sub_dir,tgt_dir), tgt_plot = plot1, pdf_only = T)
 
