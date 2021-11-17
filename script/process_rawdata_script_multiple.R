@@ -86,10 +86,8 @@ for (run in runs){
     dplyr::filter(row_number() <= (align_window/reduce_hz_rate)) %>% 
     mutate(tstep_align = tstep - tstep[1]+1) %>% # add time step with respect to movement initiation
     ungroup()
-  
-  
-  
-  
+
+
   #### Plotting ####
   if (plot_kinematics){
     source("script/sub_script/plot_pos.R")
