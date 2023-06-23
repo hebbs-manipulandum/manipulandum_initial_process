@@ -1,5 +1,13 @@
 # plot trial-by-trial kinematic data
 
+cosd <- function(deg){
+  return <- cos(deg*pi/180)
+}
+
+sind <- function(deg){
+  return <- sin(deg*pi/180)
+}
+
 ##### Data processing #####
 data_plot <- kin_raw %>%
   dplyr::select(blk_tri,state, tstep, x, y, vx, vy, sx, sy, svx, svy) %>% 

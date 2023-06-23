@@ -21,7 +21,7 @@ fname_col_list <- "script/miscellaneous/rawdata_col_list_default.R"
 # unique_sub_tag <- "S41" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 
 plot_kinematics <- F # whether you want to output plots for basic kinematics. 
-plot_points <- T # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
+plot_points <- F # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
 output_rdata <- T # boolean. whether you want output formatted as rdata
 output_csv <- F # boolean.  whether you want output formatted as csv
 
