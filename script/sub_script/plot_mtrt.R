@@ -16,8 +16,8 @@ source("script/miscellaneous/state_list.R")
 
 ## Data processing
 data_plot <- point_raw %>%
-  dplyr::select(blk_tri, peak_vel, mt, rt, retry, error_deg) %>% 
-  left_join(dplyr::select(tgt_raw,blk_tri, rot, show_arc, show_cur, show_score), by = "blk_tri")
+  dplyr::select(blk_tri, mt, rt, error_deg) %>% 
+  left_join(dplyr::select(tgt_raw,blk_tri, rot, show_cur, show_score), by = "blk_tri")
 
 
 tmp_plot.pre <- ggplot(data_plot, aes(x=blk_tri)) +

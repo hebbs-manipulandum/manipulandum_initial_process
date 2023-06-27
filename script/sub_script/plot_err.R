@@ -17,8 +17,8 @@ source("script/miscellaneous/state_list.R")
 
 ## Data processing
 data_plot <- point_edit %>%
-  dplyr::select(blk_tri, peak_vel, mt, rt, retry, hand_error) %>% 
-  left_join(dplyr::select(tgt_raw,blk_tri, rot, show_arc, show_cur, show_score), by = "blk_tri")
+  dplyr::select(blk_tri, mt, rt, hand_error) %>% 
+  left_join(dplyr::select(tgt_raw,blk_tri, rot, show_cur, show_score), by = "blk_tri")
 
 
 tmp_plot.pre <- ggplot(data_plot, aes(x=blk_tri)) +
@@ -28,7 +28,7 @@ tmp_plot.pre <- ggplot(data_plot, aes(x=blk_tri)) +
   geom_point(aes(y=hand_error)) 
 
 tmp_plot <- format_gg(tmp_plot.pre, xlabel = "Trial", ylabel = "Hand Error (Tgt - Hand) [deg]", ptitle = "Hand Error (Black) & Rotation (Orange)", 
-                      xlimit = c(0,max(data_plot$blk_tri)), ylimit =c(-15,15), xticks = c(seq(1,max(data_plot$blk_tri),20),max(data_plot$blk_tri)) , yticks = seq(-15,15,5),  show.leg = F)
+                      xlimit = c(0,max(data_plot$blk_tri)), ylimit =c(-25,25), xticks = c(seq(1,max(data_plot$blk_tri),20),max(data_plot$blk_tri)) , yticks = seq(-15,15,5),  show.leg = F)
 
 fname_plot = sprintf("%s_%s",sub_dir,tgt_dir)
 save_plots(fname = fname_plot, tgt_plot = tmp_plot, pdf_only = T)

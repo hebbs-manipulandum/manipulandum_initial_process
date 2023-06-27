@@ -9,8 +9,8 @@
 # Author: Taisei Sugiyama
 
 #### Set key parameters ####
-sub_identifier <- "S" # subject identifier (tagging) 
-sub_id <- 1 # subject id
+sub_identifier <- "f" # subject identifier (tagging) 
+sub_id <- 101 # subject id
 add_zero <- F # add "0" to subject ID with a single digit. May be used for old data set where initial subject ids were "S01", "S02", and so on
 # unique_sub_tag <- "S41" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 # unique_sub_tag <- "sample_data" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
@@ -18,7 +18,7 @@ rawdata_dir <- "data/rawdata" # the directory where raw data folders (directorie
 save_main_dir <- "data"
 save_sub_dir <- "processed"
 fname_col_list <- "script/miscellaneous/rawdata_col_list_default.R"
-plot_kinematics <- F # whether you want to output plots for basic kinematics. 
+plot_kinematics <- T # whether you want to output plots for basic kinematics. 
 plot_points <- T # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
 output_rdata <- T # boolean. whether you want output formatted as rdata
 output_csv <- F # boolean.  whether you want output formatted as csv

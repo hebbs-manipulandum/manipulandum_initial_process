@@ -20,8 +20,8 @@ fname_col_list <- "script/miscellaneous/rawdata_col_list_default.R"
 
 # unique_sub_tag <- "S41" # you can set your own specific subject id/tag in string. Set NA if you don't need this feature
 
-plot_kinematics <- F # whether you want to output plots for basic kinematics. 
-plot_points <- F # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
+plot_kinematics <- T # whether you want to output plots for basic kinematics. 
+plot_points <- T # boolean. whether you want to output plots for basic trial-by-trial point data (e.g., mt, rt, error). 
 output_rdata <- T # boolean. whether you want output formatted as rdata
 output_csv <- F # boolean.  whether you want output formatted as csv
 
@@ -81,9 +81,16 @@ for (run in runs){
   # data alignment
   # This has been changed from old scripts where movement initiation is defined as 10% of peak velocity.
   # Currently, it uses the event defined in an experiment script, such as distance or target velocity.
-  kin_align <- dplyr::filter(kin_raw, lead(state, (align_time_back/reduce_hz_rate))>= state_moving) %>% 
-    group_by(blk_tri) %>% 
-    dplyr::filter(row_number() <= (align_window/reduce_hz_rate)) %>% 
+  # kin_align <- dplyr::filter(kin_raw, lead(state, (align_time_back%/%reduce_hz_rate))>= state_moving) %>% 
+  #   group_by(blk_tri) %>% 
+  #   dplyr::filter(row_number() <= ((align_window/reduce_hz_rate)+1)) %>% 
+  #   mutate(tstep_align = tstep - tstep[1]+1) %>% # add time step with respect to movement initiation
+  #   ungroup()
+  
+  kin_align <- kin_raw %>%
+    group_by(blk_tri) %>%
+    mutate(start_t = time_t[which(state == state_moving)[1]]) %>% 
+    dplyr::filter(time_t >= (start_t-align_time_back/1000), time_t <= (start_t+align_window/1000)) %>% 
     mutate(tstep_align = tstep - tstep[1]+1) %>% # add time step with respect to movement initiation
     ungroup()
   
@@ -102,7 +109,7 @@ for (run in runs){
     # some editing
     point_edit <- point_raw %>% 
       mutate(hand_error = -error_deg) %>% # original value is (hand - tgt), so flip this
-      dplyr::select(blk_tri,cross_deg_rbt, hand_error, mt, rt, peak_vel, score, retry)
+      dplyr::select(blk_tri,cross_deg_rbt, hand_error, mt, rt, score, fail)
     
     source("script/sub_script/plot_mtrt.R")
     source("script/sub_script/plot_err.R")
@@ -110,12 +117,12 @@ for (run in runs){
   }
   
   
-  if (plot_bias){
-    source("script/sub_script/plot_pos_bias.R")
-    source("script/sub_script/plot_err_bias.R")
-    
-    
-  }
+  # if (plot_bias){
+  #   source("script/sub_script/plot_pos_bias.R")
+  #   source("script/sub_script/plot_err_bias.R")
+  #   
+  #   
+  # }
   
   #### Saving ####
   save_dir <-  sprintf("%s/%s",save_main_dir,save_sub_dir)
