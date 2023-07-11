@@ -97,10 +97,12 @@ for (run in runs){
   
   
   
+  save_tag <- sprintf("%s_%s",tgt_dir, run)
   #### Plotting ####
   if (plot_kinematics){
+  
     source("script/sub_script/plot_pos.R")
-    source("script/sub_script/plot_vel.R")
+    # source("script/sub_script/plot_vel.R")
   }
   
   

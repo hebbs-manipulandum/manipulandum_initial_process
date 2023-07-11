@@ -26,8 +26,13 @@ tmp_plot.pre <- ggplot(data_plot, aes(x=blk_tri)) +
   geom_point(aes(y=fail)) 
 
 tmp_plot <- format_gg(tmp_plot.pre, xlabel = "Trial", ylabel = "Fail (code)", ptitle = "Failed trial", 
-                      xlimit = c(0,max(data_plot$blk_tri)), ylimit =c(0,10), xticks = c(seq(1,max(data_plot$blk_tri),20),max(data_plot$blk_tri)) , yticks = seq(0,10,5),  show.leg = F)
+                      xlimit = c(0,max(data_plot$blk_tri)), ylimit =c(0,5), yticks =seq(0,5,1), xticks = c(seq(1,max(data_plot$blk_tri),20),max(data_plot$blk_tri)) ,  show.leg = F)
 
-fname_plot = sprintf("%s_%s",sub_dir,tgt_dir)
+if (exists("save_tag")){
+  fname_plot <- sprintf("%s_%s_blk",sub_dir,save_tag)
+} else {
+  fname_plot <- sprintf("%s_%s_blk",sub_dir,tgt_dir)
+}
+
 save_plots(fname = fname_plot, tgt_plot = tmp_plot, pdf_only = T)
 

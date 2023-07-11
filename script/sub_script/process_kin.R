@@ -20,16 +20,28 @@ y <- df$y # raw y position
 
 ## SG filtering (smoothing & derivatives).
 # x
-sx <- sgolayfilt(x, p = order, n = framelen, m = 0, ts = 1/sample_rate) # smooth
-svx <- sgolayfilt(x, p = order, n = framelen, m = 1, ts = 1/sample_rate) # velocity
-sax <- sgolayfilt(x, p = order, n = framelen, m = 2, ts = 1/sample_rate) # acceleration
-sjx <- sgolayfilt(x, p = order, n = framelen, m = 3, ts = 1/sample_rate) # jerk
+
+if (length(x)< framelen ){
+  framelen_used <- round(length(x)/2)
+  
+  if (framelen_used %% 2 == 0){
+    framelen_used <- framelen_used + 1 # n needs to be an odd number
+  }
+} else {
+  framelen_used <- framelen
+}
+
+
+sx <- sgolayfilt(x, p = order, n = framelen_used, m = 0, ts = 1/sample_rate) # smooth
+svx <- sgolayfilt(x, p = order, n = framelen_used, m = 1, ts = 1/sample_rate) # velocity
+sax <- sgolayfilt(x, p = order, n = framelen_used, m = 2, ts = 1/sample_rate) # acceleration
+sjx <- sgolayfilt(x, p = order, n = framelen_used, m = 3, ts = 1/sample_rate) # jerk
 
 # y
-sy <- sgolayfilt(y, p = order, n = framelen, m = 0, ts = 1/sample_rate) # smooth
-svy <- sgolayfilt(y, p = order, n = framelen, m = 1, ts = 1/sample_rate) # velocity
-say <- sgolayfilt(y, p = order, n = framelen, m = 2, ts = 1/sample_rate) # acceleration
-sjy <- sgolayfilt(y, p = order, n = framelen, m = 3, ts = 1/sample_rate) # jerk
+sy <- sgolayfilt(y, p = order, n = framelen_used, m = 0, ts = 1/sample_rate) # smooth
+svy <- sgolayfilt(y, p = order, n = framelen_used, m = 1, ts = 1/sample_rate) # velocity
+say <- sgolayfilt(y, p = order, n = framelen_used, m = 2, ts = 1/sample_rate) # acceleration
+sjy <- sgolayfilt(y, p = order, n = framelen_used, m = 3, ts = 1/sample_rate) # jerk
 
 # vx <- df$vx # robot x-velocity
 # vy <- df$vy # robot y-velocity
@@ -57,10 +69,9 @@ if (reduce_hz) {
 }
 
 
-
-# ## Checking
-# # trajectory
-# 
+# # ## Checking
+# # # trajectory
+# # 
 # tmp_trajx <- ggplot(return_df, aes(x = tstep)) +
 #   geom_hline(yintercept = 0, linetype="dashed") +
 #   geom_path(aes(y = sx), color = "red") +
@@ -70,21 +81,22 @@ if (reduce_hz) {
 #   geom_hline(yintercept = 0, linetype="dashed") +
 #   geom_path(aes(y = sy), color = "red") +
 #   geom_path(aes(y = y), color = "blue", alpha = .5)
-# # # 
+# # #
 # # # # velocity
 # tmp_vel <- ggplot(return_df, aes(x = tstep)) +
 #   geom_hline(yintercept = 0, linetype="dashed") +
 #   geom_path(aes(y = svy), color = "red")
-# # # 
+# # #
 # # # # acceleration
 # tmp_acc <- ggplot(return_df, aes(x = tstep)) +
 #   geom_hline(yintercept = 0, linetype="dashed") +
 #   geom_path(aes(y = say), color = "red")
-# # # 
+# # #
 # # # # jerk
 # tmp_jerk <- ggplot(return_df, aes(x = tstep)) +
 #   geom_hline(yintercept = 0, linetype="dashed") +
 #   geom_path(aes(y = sjy), color = "red")
-# # 
+# #
 # grid.arrange(tmp_trajy,tmp_vel,tmp_acc, tmp_jerk, ncol = 1)
+
 }

@@ -61,13 +61,18 @@ plot_list_save = marrangeGrob(plot_list, nrow = nr, ncol = nc, layout_matrix = m
                               top = sprintf("Trajectory [Hand: gray, Cursor: red, Target: black]"),
                               left = "y [m]", bottom = "x [m]") # convert the list of plots
 
-fname_list = sprintf("%s_%s",sub_dir,tgt_dir)
+if (exists("save_tag")){
+  fname_list <- save_tag
+} else {
+  fname_list <- sprintf("%s_%s",sub_dir,tgt_dir)
+}
+
 save_plots(fname = fname_list, tgt_plot = plot_list_save, pdf_only = T)
 
 # superimposed
 
 
-tgt_poss <- data.frame(x = tgt_raw$trad[1]*cosd(unique(tgt_raw$tgt)), y =  tgt_raw$trad[1]*sind(unique(tgt_raw$tgt)))
+tgt_poss <- data.frame(x = tgt_raw$trad[1]*cosd(unique(tgt_raw$tgt))/1000, y =  tgt_raw$trad[1]*sind(unique(tgt_raw$tgt))/1000)
 
 plot1.pre <- ggplot(data_plot) +
   geom_path(aes(x=x, y=y, group = blk_tri, color = tgt)) +
@@ -79,7 +84,14 @@ plot1 <- format_gg(plot1.pre, xlabel = "x [m]", ylabel = "y [m]",
                       # xlimit = c(-1,1), ylimit =c(-1,1), xticks = NA, yticks = NA,  show.leg = F)
                       ylimit = c(-.01,.15), xlimit =c(-.08,.08), xticks = NA, yticks = NA,  show.leg = F)
 
-save_plots(fname = sprintf("%s_%s_blk",sub_dir,tgt_dir), tgt_plot = plot1, pdf_only = T)
+
+if (exists("save_tag")){
+  fname_list <- sprintf("%s_%s_blk",sub_dir,save_tag)
+} else {
+  fname_list <- sprintf("%s_%s_blk",sub_dir,tgt_dir)
+}
+
+save_plots(fname = fname_list, tgt_plot = plot1, pdf_only = T)
 
 
 # 

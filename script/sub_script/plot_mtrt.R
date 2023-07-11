@@ -29,6 +29,12 @@ tmp_plot.pre <- ggplot(data_plot, aes(x=blk_tri)) +
 tmp_plot <- format_gg(tmp_plot.pre, xlabel = "Trial", ylabel = "Time [s] (Red: MT, Blue: RT)", ptitle = "Movement & Reaction Time", 
                       xlimit = c(0,max(data_plot$blk_tri)), ylimit =c(0,1.2), xticks = c(seq(1,max(data_plot$blk_tri),20),max(data_plot$blk_tri)) , yticks = c(0,.5,1),  show.leg = F)
 
-fname_plot = sprintf("%s_%s",sub_dir,tgt_dir)
+
+if (exists("save_tag")){
+  fname_plot <- sprintf("%s_%s_blk",sub_dir,save_tag)
+} else {
+  fname_plot <- sprintf("%s_%s_blk",sub_dir,tgt_dir)
+}
+
 save_plots(fname = fname_plot, tgt_plot = tmp_plot, pdf_only = T)
 

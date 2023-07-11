@@ -72,6 +72,7 @@ kin_raw <- map(fname_kin,function(fname){
   #   mutate(dt = time_trial - lag(time_trial, 1), dtg = time_global - lag(time_global, 1))
   # summary(temp)
   
+  # print(tri_num) # debug
   return_df <- process_kin(return_df_raw2,reduce_hz,reduce_hz_rate) %>% 
     mutate(blk_tri = tri_num)
   
@@ -80,11 +81,12 @@ kin_raw <- map(fname_kin,function(fname){
 
 
 
-# temp line for checking
+# # temp line for checking
 # tmp.plot <- ggplot(return_df_raw2, aes(x = x, y = y)) +
 #   geom_path() +
-#   ylim(300,450) +
-#   xlim(-95,55)
+#   ylim((range(return_df_raw2$y)*1.2-0.01)) +
+#   xlim((range(return_df_raw2$y)-mean(range(return_df_raw2$y)))*1.2) 
+  # xlim(-95,55)
 
 
 
