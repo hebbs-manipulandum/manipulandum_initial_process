@@ -14,4 +14,4 @@ point_col <- c("cross_time_global","cross_time_trial","cross_x_rbt","cross_y_rbt
              # "show_cur","show_score","train_type","min_score","max_score","difficulty", "trial_type", "block_phase")#
 tgt_col <- c("trad","tgt","tgt_type", "tgt_manip",  "show_cur",  "show_cur_return",
              "show_dist_circle",  "show_dist_circle_return", "cursor_manip",
-             "rot","show_score","train_type","min_score","max_score","difficulty", "time_trial", "block_phase")
+             "rot","show_score","train_type","min_score","max_score","difficulty", "time_trial", "block_phase","break")
