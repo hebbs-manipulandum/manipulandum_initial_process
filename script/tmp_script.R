@@ -1,5 +1,8 @@
 tmp_fn <- list.files("data/rawdata/")
 
+
+use_max_dt <-  T # set this to false up to n534 or n415
+
 for (unique_sub_tag in tmp_fn)
   source("script/process_rawdata_script_multiple.R")
 
