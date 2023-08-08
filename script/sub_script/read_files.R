@@ -46,9 +46,10 @@ kin_raw <- map(fname_kin,function(fname){
   colnames(return_df_raw) <- kin_col
   
   return_df_raw2 <- return_df_raw %>% 
-    mutate(x = (x - task_center_x), y = (y - task_center_y), dt = time_trial - lag(time_trial,1)) # zero-ing with respect to the center of task space. 
+    mutate(x = (x - task_center_x), y = (y - task_center_y), dt = time_global - lag(time_global,1),
+           t_trial = time_global - time_global[1]) # zero-ing with respect to the center of task space. 
   
-  return_df <- process_kin(return_df_raw2,reduce_hz,reduce_hz_rate, use_max_dt) %>% 
+  return_df <- process_kin(return_df_raw2,reduce_hz,reduce_hz_rate, data_version, add_dt) %>% 
     mutate(blk_tri = tri_num)
   
 }) %>% 

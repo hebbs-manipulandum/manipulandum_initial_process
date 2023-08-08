@@ -78,6 +78,11 @@ for (run in runs){
   # tgt_raw: target sequence file data 
   # param_raw: block-wide parameters(e.g., sequence file name used, target distance)
   
+  
+  
+  source("script/sub_script/test_filter.R") # temporary test script for filtering kinematic data
+  
+  
   # data alignment
   # This has been changed from old scripts where movement initiation is defined as 10% of peak velocity.
   # Currently, it uses the event defined in an experiment script, such as distance or target velocity.

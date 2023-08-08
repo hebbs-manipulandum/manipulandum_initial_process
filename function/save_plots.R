@@ -13,10 +13,7 @@ save_plots = function(tgt_plot = last_plot(), mdir = main_dir, sdir = sub_dir, f
   dir.create(file.path("figure", mdir), showWarnings = FALSE) 
   dir.create(file.path(mdir_path, sdir), showWarnings = FALSE)
   dir.create(file.path("figure",mdir), showWarnings = FALSE)
-  dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "eps"), showWarnings = FALSE)
-  dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "svg"), showWarnings = FALSE)
-  dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "nolegend"), showWarnings = FALSE)
-  
+
   save_dir = sprintf("figure/%s/%s",mdir,sdir)
   
   fname_plot_pdf = sprintf("%s/%s.pdf",save_dir,fname)
@@ -29,13 +26,20 @@ save_plots = function(tgt_plot = last_plot(), mdir = main_dir, sdir = sub_dir, f
   ## Now output the plots ##
   # pdf
   ggsave(fname_plot_pdf, plot = tgt_plot, width = 20, height = 20, units = "cm")
-  plot.noleg = tgt_plot +
-    theme(legend.position = "none") # plot withour legend
-  
-  ggsave(fname_plot_pdf_noleg, plot = plot.noleg, width = 20, height = 20, units = "cm", useDingbats=FALSE)
   
   # Others
   if (!pdf_only){
+    
+    
+    
+    plot.noleg = tgt_plot +
+      theme(legend.position = "none") # plot withour legend
+    
+    ggsave(fname_plot_pdf_noleg, plot = plot.noleg, width = 20, height = 20, units = "cm", useDingbats=FALSE)
+    
+    dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "eps"), showWarnings = FALSE)
+    dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "svg"), showWarnings = FALSE)
+    dir.create(file.path(sprintf("%s/%s",mdir_path,sdir), "nolegend"), showWarnings = FALSE)
     ggsave(fname_plot_eps, plot = tgt_plot, width = 20, height = 20, units = "cm", device = cairo_ps)
     ggsave(fname_plot_svg, plot = tgt_plot, width = 20, height = 20, units = "cm")
     # Spit out readme
