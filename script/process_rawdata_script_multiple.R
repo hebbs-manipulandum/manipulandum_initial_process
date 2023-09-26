@@ -80,7 +80,7 @@ for (run in runs){
   
   
   
-  source("script/sub_script/test_filter.R") # temporary test script for filtering kinematic data
+  # source("script/sub_script/test_filter.R") # temporary test script for filtering kinematic data
   
   
   # data alignment

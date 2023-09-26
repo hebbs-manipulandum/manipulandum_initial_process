@@ -64,6 +64,8 @@ process_kin <- function(df, reduce_hz, reduce_hz_rate, data_version = 1, add_dt 
   state <- df$state # trial state
   
   
+  # browser()
+  
   if (reduce_hz) {
     return_df <- data.frame(tstep = 1:length(x), state, x, y, vx, vy, sx, sy, svx, svy, sax, say, sjx, sjy, fx = df$fs_x, fy = df$fs_y)  %>% 
       dplyr::filter(tstep %% reduce_hz_rate == 1) # reduce sample Hz
@@ -76,6 +78,8 @@ process_kin <- function(df, reduce_hz, reduce_hz_rate, data_version = 1, add_dt 
     return_df <- return_df %>% 
       mutate(dt = df$dt, t_trial = df$t_trial)
   }
+  
+  return(return_df)
 
 
   # # ## Checking

@@ -12,7 +12,7 @@ if (data_version == 1){
   reduce_hz <- T # reduce sample frequency of kinematic data. Filtering is done BEFORE reduction, so keep this True unless you want "raw" data.
   reduce_hz_rate <- 5 # factor for reduction of frequency.
   sample_rate <-  1000 # sampling rate in Hz. NOTE: Current script has close to but not exactly 1000 Hz sampling (it fluctuates). Change this number after fixing the samling rate problem somehow
-  
+  add_dt <- F
 } else {
   
   order <- 4 # degree of polynomial
@@ -22,7 +22,7 @@ if (data_version == 1){
   sample_rate <-  200 # sampling rate in Hz. NOTE: Current script has close to but not exactly 1000 Hz sampling (it fluctuates). Change this number after fixing the samling rate problem somehow
   
   
-  add_dt = T # For testing/new experiment, this can be set true. Since old processed data do not have time stamps, it's better to keep this False
+  add_dt <- T # For testing/new experiment, this can be set true. Since old processed data do not have time stamps, it's better to keep this False
 }
 
 
